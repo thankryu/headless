@@ -1,14 +1,11 @@
+# Database
 spring:
   datasource:
-#    url: jdbc:h2:~/data-jpa
-    url: jdbc:h2:tcp://localhost/~/datajpa
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  h2:
-    console:
-      enabled: true
-
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.0.3:3306/trips?serverTimezone=UTC&characterEncoding=UTF-8
+    username: thankryu
+    password: dkzkdnsxm8!
+  # Jpa 설정
   jpa:
     hibernate:
         ddl-auto: create
@@ -16,12 +13,23 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
+        default_batch_fetch_size: 100
   data:
     web:
       pageable:
         default-page-size: 10
         max-page-size: 2000
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    operations-sorter: method
+    path: /swagger-ui
+  paths-to-match: /**
+  show-login-endpoint: true
+  cache:
+    disabled: true
 
 logging.level:
   org.hibernate.SQL: debug
