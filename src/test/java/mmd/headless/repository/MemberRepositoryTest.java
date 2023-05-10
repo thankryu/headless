@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,6 +26,9 @@ class MemberRepositoryTest {
 
     @Autowired
     MemberAndAppRepository memberAndAppRepository;
+
+    @Autowired
+    EntityManager em;
 
     /**
      * member, app relation table 테스트
@@ -49,6 +53,9 @@ class MemberRepositoryTest {
 
         memberAndAppRepository.save(memberAndApp1);
         memberAndAppRepository.save(memberAndApp2);
+
+        em.flush();
+        em.clear();
 
         // when
         List<MemberAndApp> memberAndApps = memberAndAppRepository.findAll();
