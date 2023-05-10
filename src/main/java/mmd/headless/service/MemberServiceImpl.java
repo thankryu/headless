@@ -20,7 +20,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Transactional
     @Override
-    public Long newMember(MemberRequest form) {
+    public Long newMember(MemberRequest form) throws Exception {
 
         // 중복 검사
         validateDuplicateMember(form);

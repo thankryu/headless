@@ -30,7 +30,7 @@ public class MemberApiController {
                     @ApiResponse(responseCode = "200", description = "회원가입에 성공하셨습니다.")
             }
     )
-    public ResultResponse newMember(@Valid @RequestBody MemberRequest form , Errors errors){
+    public ResultResponse newMember(@Valid @RequestBody MemberRequest form , Errors errors) throws Exception {
 
         inValidErrorHandlingUtil.errorHandler(errors);
         Long memberId = memberService.newMember(form);

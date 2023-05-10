@@ -4,5 +4,5 @@ import mmd.headless.dto.MemberRequest;
 
 public interface MemberService {
 
-    Long newMember(MemberRequest form);
+    Long newMember(MemberRequest form) throws Exception;
 }
