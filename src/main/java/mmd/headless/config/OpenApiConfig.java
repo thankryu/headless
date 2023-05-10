@@ -16,7 +16,7 @@ public class OpenApiConfig {
         Info info = new Info().title("Headless API Docs").version(appVersion)
                 .description("Headless Platform Api 페이지")
                 .termsOfService("https://thankryu.iptime.org/swagger-ui")
-                .contact(new Contact().name("thankryu").url("https://github.com/thankryu").email("thankryu@gmail.com"));
+                .contact(new Contact().name("thankryu").url("https://github.com/thankryu/headless").email("thankryu@gmail.com"));
 
         return new OpenAPI()
                 .components(new Components())
