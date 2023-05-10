@@ -29,6 +29,7 @@ public class Member extends BaseEntity{
 
     private String phone; // 사용자 전화번호
 
+    @Enumerated(EnumType.STRING)
     private JoinType joinType; // 가입 타입
 
     @OneToMany(mappedBy = "member")

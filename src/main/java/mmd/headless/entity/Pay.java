@@ -17,6 +17,7 @@ public class Pay extends BaseEntity{
     @Column(name = "billing_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private PayType payType; // 결제 타입
 
     @ManyToOne(fetch = FetchType.LAZY)
