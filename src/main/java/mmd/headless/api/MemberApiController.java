@@ -21,7 +21,7 @@ import javax.validation.Valid;
 public class MemberApiController {
 
     private final MemberService memberService;
-    private final InValidErrorHandlingUtil inValidErrorHandlingUtil;
+    InValidErrorHandlingUtil inValidErrorHandlingUtil = new InValidErrorHandlingUtil();
 
     @PostMapping("/new")
     @Operation(
