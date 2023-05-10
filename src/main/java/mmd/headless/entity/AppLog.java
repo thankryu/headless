@@ -9,23 +9,16 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames={"member_id", "app_id"}, name="member_app_unique")})
-public class MemberAndApp {
+public class AppLog extends BaseEntity{
 
     @Id
     @GeneratedValue
+    @Column(name = "app_log_id")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
-    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="app_id")
     private App app;
 
-    public MemberAndApp(Member member, App app) {
-        this.member = member;
-        this.app = app;
-    }
+    private String phone;
 }

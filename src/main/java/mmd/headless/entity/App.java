@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class App {
+public class App extends BaseEntity{
 
     @Id
     @GeneratedValue
@@ -20,8 +20,17 @@ public class App {
 
     private String appName;
 
+    private String appContent;
+
     @OneToMany(mappedBy = "app")
     private List<MemberAndApp> memberAndApps = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "app_config_id")
+    private AppConfig appConfig;
+
+    @OneToMany(mappedBy = "app")
+    private List<AppLog> appLog = new ArrayList<>();
 
     public App(String appName) {
         this.appName = appName;
