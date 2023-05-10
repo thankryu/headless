@@ -28,4 +28,44 @@ public class GlobalExceptionHandler {
         }
         return resultMap;
     }
+
+    /**
+     * 인증 실패 시
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(UnAuthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public @ResponseBody Map<String, Object> ex(UnAuthorizedException ex) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("msg", ex.getMsg());
+        return resultMap;
+    }
+
+    /**
+     * 서버내 로직 오류 일 때
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(InternalServerErrorException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public @ResponseBody Map<String, Object> internalServerError(InternalServerErrorException ex) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("msg", ex.getMsg());
+        return resultMap;
+    }
+
+    /**
+     * 외부와 통신 오류가 발생했을 때
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(BadGatewayException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public @ResponseBody Map<String, Object> exApiFail(BadGatewayException ex) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("msg", ex.getMsg());
+        resultMap.put("error", ex.getErrorMsg());
+        return resultMap;
+    }
 }
