@@ -1,7 +1,9 @@
 package mmd.headless.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mmd.headless.enums.JoinType;
 
 import javax.validation.constraints.Email;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Getter
+@NoArgsConstructor
 public class MemberRequest {
 
     @Schema(title = "사용자 이름", example = "홍길동")
@@ -30,4 +33,13 @@ public class MemberRequest {
     private String phone;
 
     private JoinType joinType;
+
+    @Builder
+    public MemberRequest(String username, String email, String password, String phone, JoinType joinType) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.joinType = joinType;
+    }
 }
