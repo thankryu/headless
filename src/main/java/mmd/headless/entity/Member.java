@@ -25,7 +25,7 @@ public class Member extends BaseEntity{
 
     private String email; // 사용자 이메일
 
-    private String userPassword; // 사용자 비밀번호
+    private String password; // 사용자 비밀번호
 
     private String phone; // 사용자 전화번호
 
@@ -44,10 +44,10 @@ public class Member extends BaseEntity{
     }
 
     @Builder
-    public Member(String username, String email, String userPassword, String phone, JoinType joinType) {
+    public Member(String username, String email, String password, String phone, JoinType joinType) {
         this.username = username;
         this.email = email;
-        this.userPassword = userPassword;
+        this.password = password;
         this.phone = phone;
         this.joinType = joinType;
     }
