@@ -1,6 +1,6 @@
 package mmd.headless.util;
 
-import mmd.headless.Exception.ValidationException;
+import mmd.headless.Exception.BadRequestException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
@@ -18,7 +18,7 @@ public class InValidErrorHandlingUtil {
             for (String key : validatorResult.keySet()) {
                 validatorResult.put(key, validatorResult.get(key));
             }
-            throw new ValidationException("파라미터 오류", validatorResult);
+            throw new BadRequestException("파라미터 오류", validatorResult);
         }
     }
 

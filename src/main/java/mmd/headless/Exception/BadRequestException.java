@@ -8,15 +8,15 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class ValidationException extends RuntimeException {
+public class BadRequestException extends RuntimeException {
     private String msg;
     private Map<String, String > errorMap;
 
-    public ValidationException(String msg){
+    public BadRequestException(String msg){
         this.msg = msg;
     }
 
-    public ValidationException(String msg, Map<String, String> errorMap){
+    public BadRequestException(String msg, Map<String, String> errorMap){
         this.msg = msg;
         if (errorMap != null) {
             this.errorMap = errorMap;

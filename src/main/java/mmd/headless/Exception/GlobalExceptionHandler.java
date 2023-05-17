@@ -18,9 +18,9 @@ public class GlobalExceptionHandler {
      * @param ex
      * @return
      */
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public @ResponseBody Map<String, Object> userNotFound(ValidationException ex) {
+    public @ResponseBody Map<String, Object> userNotFound(BadRequestException ex) {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("msg", ex.getMsg());
         if(!Objects.isNull(ex.getErrorMap())){

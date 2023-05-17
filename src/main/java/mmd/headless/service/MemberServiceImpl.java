@@ -2,7 +2,7 @@ package mmd.headless.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mmd.headless.Exception.ValidationException;
+import mmd.headless.Exception.BadRequestException;
 import mmd.headless.dto.MemberLogin;
 import mmd.headless.dto.MemberRequest;
 import mmd.headless.dto.ResultResponse;
@@ -61,7 +61,7 @@ public class MemberServiceImpl implements MemberService{
 
             return new ResultResponse<>(TokenInfo.builder().grantType("Bearer").accessToken(token).build(), "success");
         } else {
-            throw new ValidationException("접속 정보를 확인해 주세요.");
+            throw new BadRequestException("접속 정보를 확인해 주세요.");
         }
     }
 
