@@ -30,6 +30,7 @@ public class MemberRequest {
 
     @Schema(title = "비밀번호", example = "010-0000-0000")
     @NotEmpty(message = "전화번호는 필수입니다")
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$",message = "핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx")
     private String phone;
 
     private JoinType joinType;
