@@ -61,8 +61,6 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
             return true;
-        } catch (SignatureException e){
-            log.error("Invalid JWT signature", e);
         } catch (MalformedJwtException e){
             log.error("Invalid JWT token", e);
         } catch (ExpiredJwtException e){
