@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class MemberRequest {
 
-    @Schema(title = "사용자 이름", example = "홍길동")
+    @Schema(title = "사용자 이름", example = "thankryu")
     @NotEmpty(message = "회원 이름은 필수 입니다")
     @Pattern(regexp = "^[a-z0-9]{4,20}$", message = "아이디는 영어 소문자와 숫자만 사용하여 4~20자리여야 합니다.")
     private String username;
@@ -24,7 +24,7 @@ public class MemberRequest {
     @Email
     private String email;
 
-    @Schema(title = "비밀번호", example = "abcdefgd1!")
+    @Schema(title = "비밀번호", example = "1q2w3e4r5t")
     @NotEmpty(message = "비밀번호는 필수입니다")
     private String password;
 
