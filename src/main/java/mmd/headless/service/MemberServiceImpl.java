@@ -66,7 +66,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     private void validateDuplicateMember(MemberRequest member) {
-        Optional<Member> members = memberRepository.findByUsernameAndEmail(member.getUsername(), member.getEmail());
+        Optional<Member> members = memberRepository.findByUserEmail(member.getEmail());
         if(!members.isEmpty()){
             throw new IllegalArgumentException("이미 존재하는 회원입니다.");
         }

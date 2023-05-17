@@ -16,7 +16,6 @@ public class MemberRequest {
 
     @Schema(title = "사용자 이름", example = "thankryu")
     @NotEmpty(message = "회원 이름은 필수 입니다")
-    @Pattern(regexp = "^[a-z0-9]{4,20}$", message = "아이디는 영어 소문자와 숫자만 사용하여 4~20자리여야 합니다.")
     private String username;
 
     @Schema(title = "사용자 이메일", example = "thankryu@gmail.com")
