@@ -21,7 +21,7 @@ public class MemberApiController {
     private final MemberService memberService;
     InValidErrorHandlingUtil inValidErrorHandlingUtil = new InValidErrorHandlingUtil();
 
-    @PostMapping("/new")
+    @PostMapping("/")
     @Operation(
             summary = "headless 회원 가입", description = "headless 회원 가입을 진행합니다." ,
             responses = {
