@@ -20,7 +20,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("url check" + request.getRequestURI());
 
-        if(!request.getRequestURI().contains("login")
+        if(!request.getRequestURI().contains("members")
                 && !request.getRequestURI().contains("signup")
                 && !request.getRequestURI().contains("swagger-ui")
                 && !request.getRequestURI().contains("swagger")

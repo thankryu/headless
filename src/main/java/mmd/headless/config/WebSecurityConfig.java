@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
+            "/api/members/**"
     };
 
     @Override
@@ -57,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT"));
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setMaxAge(3600L);
