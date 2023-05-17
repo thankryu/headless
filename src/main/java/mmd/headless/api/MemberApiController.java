@@ -3,15 +3,13 @@ package mmd.headless.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import mmd.headless.dto.MemberLogin;
 import mmd.headless.dto.MemberRequest;
 import mmd.headless.dto.ResultResponse;
 import mmd.headless.service.MemberService;
 import mmd.headless.util.InValidErrorHandlingUtil;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -36,5 +34,18 @@ public class MemberApiController {
         Long memberId = memberService.newMember(form);
 
         return new ResultResponse(memberId, "success");
+    }
+
+    @Operation(
+            summary = "headless 로그인", description = "headless 로그인을 진행합니다." ,
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "로그인에 성공하셨습니다.")
+            }
+    )
+    @PostMapping("/login")
+    public ResultResponse login(@Valid @RequestBody MemberLogin login, Errors errors) throws Exception{
+
+        inValidErrorHandlingUtil.errorHandler(errors);
+        return memberService.login(login);
     }
 }
