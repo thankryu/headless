@@ -71,7 +71,7 @@ class MemberApiControllerTest {
                 .username("thankryu")
                 .email("thankryu@gmail.com")
                 .phone("010-0000-0000")
-                .userPassword("abcd1234!@")
+                .password("abcd1234!@")
                 .build();
 
         memberRepository.save(member);
