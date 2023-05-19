@@ -1,9 +1,9 @@
 package mmd.headless.service;
 
-import mmd.headless.dto.AlarmRequest;
+import mmd.headless.dto.SmsRequest;
 
 public interface AlarmService {
 
-    void sendAlarm(AlarmRequest form);
+    void sendSMS(SmsRequest form) throws Exception;
 
 }

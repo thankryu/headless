@@ -3,7 +3,7 @@ package mmd.headless.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import mmd.headless.dto.AlarmRequest;
+import mmd.headless.dto.SmsRequest;
 import mmd.headless.dto.ResultResponse;
 import mmd.headless.service.AlarmService;
 import org.springframework.validation.Errors;
@@ -28,9 +28,9 @@ public class AlarmController {
             }
     )
     @PostMapping("/sendAlarm")
-    public ResultResponse sendAlarm(@Valid @RequestBody AlarmRequest form , Errors errors){
+    public ResultResponse sendAlarm(@Valid @RequestBody SmsRequest form , Errors errors) throws Exception {
 
-        alarmService.sendAlarm(form);
+        alarmService.sendSMS(form);
 
         return new ResultResponse("", "success");
     }
