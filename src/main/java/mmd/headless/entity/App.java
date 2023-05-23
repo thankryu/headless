@@ -29,8 +29,8 @@ public class App extends BaseEntity{
     @JoinColumn(name = "app_config_id")
     private AppConfig appConfig;
 
-    @OneToMany(mappedBy = "app")
-    private List<AppLog> appLog = new ArrayList<>();
+//    @OneToMany(mappedBy = "app")
+//    private List<AppLog> appLog = new ArrayList<>();
 
     public App(String appName) {
         this.appName = appName;
