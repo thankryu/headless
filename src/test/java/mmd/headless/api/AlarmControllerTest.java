@@ -2,12 +2,15 @@ package mmd.headless.api;
 
 import mmd.headless.dto.SmsRequest;
 import mmd.headless.dto.SignatureDto;
+import mmd.headless.entity.AppLog;
+import mmd.headless.repository.AppLogRepository;
 import mmd.headless.service.AlarmServiceImpl;
 import mmd.headless.util.NaverUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -24,6 +27,9 @@ class AlarmControllerTest {
 
     @Autowired
     AlarmServiceImpl alarmService;
+
+    @Autowired
+    AppLogRepository appLogRepository;
 
     /**
      * 네이버 발송 시그니처 키 생성 테스트
@@ -49,8 +55,10 @@ class AlarmControllerTest {
      * 문자 발송 테스트
      */
     @Test
+    @Rollback(value = false)
     public void sendSMS() throws Exception{
 
+        // 발송 정보 저장
         SmsRequest form = new SmsRequest();
         form.setType("SMS");
         form.setFrom(sendNumber);
@@ -62,7 +70,14 @@ class AlarmControllerTest {
         messageRecipient.setTo("01000000000");
         form.setMessages((Arrays.asList(messageRecipient)));
 
+        // 발송
         alarmService.sendSMS(form);
-    }
 
+        // 발송결과 확인
+        List<AppLog> appLogs = appLogRepository.findAll();
+
+        for (AppLog appLog : appLogs) {
+            System.out.println(appLog.toString());
+        }
+    }
 }
