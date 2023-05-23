@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import mmd.headless.dto.SmsRequest;
 import mmd.headless.dto.NaverSmsResponse;
 import mmd.headless.dto.SignatureDto;
+import mmd.headless.entity.AppLog;
+import mmd.headless.repository.AppLogRepository;
 import mmd.headless.util.NaverUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -16,6 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -36,6 +39,8 @@ public class AlarmServiceImpl implements AlarmService {
     private final ObjectMapper objectMapper;
 
     private final RestTemplate restTemplate;
+
+    private final AppLogRepository appLogRepository;
 
     /**
      * 네이버 문자 발송
@@ -61,9 +66,22 @@ public class AlarmServiceImpl implements AlarmService {
         // 발송 url
         String url = sendUrl + signatureUrl;
 
-        ResponseEntity<NaverSmsResponse> responseEntity = naverApiUtil(form, url, HttpMethod.POST, httpHeaders, NaverSmsResponse.class);
+        String phone = form.getMessages().get(0).getTo();
+
+        // API 발송
+        ResponseEntity<NaverSmsResponse> responseEntity = naverApiUtil(form, url, HttpMethod.POST, httpHeaders, phone, NaverSmsResponse.class);
         
-        // TODO 발송 결과 처리
+        // 발송 결과 저장
+        AppLog appLog = AppLog.builder()
+                .phone(phone)
+                .statusName(responseEntity.getBody().getStatusName())
+                .statusCode(responseEntity.getBody().getStatusCode())
+                .requestId(responseEntity.getBody().getRequestId())
+                .requestTime(responseEntity.getBody().getRequestTime())
+                .resultMsg("Accept")
+                .build();
+
+        appLogRepository.save(appLog);
     }
 
     /**
@@ -82,8 +100,9 @@ public class AlarmServiceImpl implements AlarmService {
     /**
      * 네이버 알림톡 api 발송
      */
-    private <T> ResponseEntity<T> naverApiUtil(Object form, String url, HttpMethod method, HttpHeaders httpHeaders, Class<T> responseType) throws JsonProcessingException {
+    private <T> ResponseEntity<T> naverApiUtil(Object form, String url, HttpMethod method, HttpHeaders httpHeaders, String phone ,Class<T> responseType) throws JsonProcessingException {
         HttpEntity<?> httpEntity = new HttpEntity<>(toJson(form), httpHeaders);
+        Map<String, Object> resultMap = new HashMap<>();
 
         try {
             ResponseEntity<T> response =
@@ -92,14 +111,35 @@ public class AlarmServiceImpl implements AlarmService {
             return response;
         } catch (HttpClientErrorException httpClientErrorException){
             httpClientErrorException.printStackTrace();
-            Map<String, Object> map = objectMapper.readValue(httpClientErrorException.getResponseBodyAsString(), Map.class);
-            map.put("ErrorType", httpClientErrorException.getStatusText());
+            resultMap = objectMapper.readValue(httpClientErrorException.getResponseBodyAsString(), Map.class);
+            resultMap.put("resultMsg", httpClientErrorException.getStatusText());
+            resultMap.put("statusCode", httpClientErrorException.getStatusCode());
+            resultMap.put("statusName", "fail");
+            saveAppErrorLog(phone, resultMap);
         } catch (Exception e){
+            resultMap.put("resultMsg", "Exception");
+            resultMap.put("statusCode", "500");
+            resultMap.put("statusName", "fail");
             e.printStackTrace();
+            saveAppErrorLog(phone, resultMap);
         }
 
-        // TODO 발송 실패 처리
         return null;
+    }
+
+    /**
+     * 앱 에러 로그 저장
+     * 차후에 Json Token 에서 App 정보 받을 수 있어야함
+     */
+    private void saveAppErrorLog(String phone, Map<String, Object> resultMap) {
+        AppLog appLog = AppLog.appLogFail()
+                .phone(phone)
+                .statusName(String.valueOf(resultMap.get("statusName")))
+                .statusCode(String.valueOf(resultMap.get("statusCode")))
+                .resultMsg(String.valueOf(resultMap.get("resultMsg")))
+                .build();
+
+        appLogRepository.save(appLog);
     }
 
     /**
