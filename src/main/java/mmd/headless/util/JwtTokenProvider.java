@@ -38,7 +38,7 @@ public class JwtTokenProvider {
     }
 
     // jwt 토큰에서 아이디 추출
-    public static String getUserIdFromJWT(String token){
+    public static Claims getUserIdFromJWT(String token){
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
@@ -53,7 +53,8 @@ public class JwtTokenProvider {
         log.info("userName:"+claims.get("userName"));
         log.info("userId:"+claims.get("userId"));
 
-        return String.valueOf(claims.get("userId"));
+        // return String.valueOf(claims.get("userId"));
+        return claims;
     }
 
     // jwt 토큰 유효성 검사

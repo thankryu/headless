@@ -1,5 +1,6 @@
 package mmd.headless.util;
 
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import mmd.headless.config.TokenFailDto;
 import org.apache.commons.lang3.StringUtils;
@@ -25,15 +26,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 && !request.getRequestURI().contains("swagger-ui")
                 && !request.getRequestURI().contains("swagger")
                 && !request.getRequestURI().contains("api-docs")
+                && !request.getRequestURI().contains("/api/confirm")
                 && !request.getRequestURI().contains("favicon")){
             try {
                 String jwt = getJwtFromRequest(request);
 
                 if(StringUtils.isNotEmpty(jwt) && JwtTokenProvider.validateToken(jwt)){
-                    String userId = JwtTokenProvider.getUserIdFromJWT(jwt);
+                    Claims claims = JwtTokenProvider.getUserIdFromJWT(jwt);
 
-                    log.info("userId : " + userId);
-                    UserAuthentication authentication = new UserAuthentication(userId, null, null);
+                    log.info("claims : " + claims);
+                    UserAuthentication authentication = new UserAuthentication(claims.getId(), null, null);
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
